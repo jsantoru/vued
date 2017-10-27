@@ -1,6 +1,6 @@
 <template>
   <div id="top-nav">
-    <b-navbar toggleable="md" type="dark" variant="info">
+    <b-navbar toggleable="md" type="dark" variant="info" fixed="top">
 
       <b-nav-toggle target="nav_collapse"></b-nav-toggle>
 
@@ -57,12 +57,5 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   #top-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height:75px;
-    text-align: center;
-    border-bottom: thin solid black;
   }
 </style>

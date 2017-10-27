@@ -19,7 +19,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   #the-body {
-    margin: 75px auto 0;
+    padding-top: 50px;
     overflow: hidden;
     border: medium solid black;
     width:100%;

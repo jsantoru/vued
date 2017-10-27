@@ -21,7 +21,7 @@ export default {
     float:left;
     border: thin solid red;
     height:100%;
-    width:79%;
+    width:80%;
     overflow:auto;
   }
 </style>
