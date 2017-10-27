@@ -1,6 +1,9 @@
 <template>
   <div id="main-content">
     <h1>{{ msg }}</h1>
+    <ul class="list-group">
+      <li v-for="user in users" class="list-group-item list-group-item-action">{{getUserDisplayName(user)}}</li>
+    </ul>
   </div>
 </template>
 
@@ -9,8 +12,21 @@ export default {
   name: 'MainContent',
   data () {
       return {
-        msg: 'This is the main content'
+        msg: 'This is the main content',
+        users: []
       }
+  },
+  methods: {
+      getUserDisplayName: function(user) {
+          return user.name + " (" + user.email + ")";
+      }
+  },
+  // when this component is created
+  created: function() {
+      this.$http.get("https://jsonplaceholder.typicode.com/users")
+        .then(function(response) {
+            this.users = response.data;
+          });
   }
 }
 </script>
@@ -23,5 +39,6 @@ export default {
     height:100%;
     width:80%;
     overflow:auto;
+    text-align:center;
   }
 </style>

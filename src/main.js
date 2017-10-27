@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import vueResource from 'vue-resource'
 
 import App from './App'
 import router from './router/router'
@@ -15,7 +16,8 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.config.productionTip = false
 
 // use
-Vue.use(BootstrapVue);
+//Vue.use(BootstrapVue);
+Vue.use(vueResource);
 
 // components - global registering
 Vue.component('top-nav', TopNav);
