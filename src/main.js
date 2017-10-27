@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App'
-import router from './router'
+import router from './router/router'
 import HelloWorld from '@/components/HelloWorld'
 import Vue2 from '@/components/Vue2'
 
