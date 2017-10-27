@@ -1,4 +1,5 @@
 import Vue from 'vue'
+
 import App from './App'
 import router from './router/router'
 import TopNav from '@/components/TopNav'
@@ -6,7 +7,15 @@ import MainContent from '@/components/MainContent'
 import LeftSidebar from '@/components/LeftSidebar'
 import TheBody from '@/components/TheBody'
 
+import BootstrapVue from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+// config
 Vue.config.productionTip = false
+
+// use
+Vue.use(BootstrapVue);
 
 // components - global registering
 Vue.component('top-nav', TopNav);
