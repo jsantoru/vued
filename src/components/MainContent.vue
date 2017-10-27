@@ -34,11 +34,10 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   #main-content {
-    float:left;
-    border: thin solid red;
-    height:100%;
+    overflow-y: auto;
+    padding: 2em;
     width:80%;
-    overflow:auto;
-    text-align:center;
+    flex: 0 0 auto;
+    border: thin solid black;
   }
 </style>

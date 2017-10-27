@@ -24,6 +24,14 @@
           {
               id: 2,
               name: "Two"
+          },
+          {
+            id: 3,
+            name: "Three"
+          },
+          {
+            id: 4,
+            name: "Four"
           }
         ]
       }
@@ -44,11 +52,11 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   #left-sidebar {
-    float:left;
-    border-right: thin solid black;
-    width: 20%;
-    height: 100%;
-    overflow:auto;
+    overflow-y: auto;
+    padding: 2em;
+    width:20%;
+    flex: 0 0 auto;
+    border: thin solid black;
   }
 
   .bold {

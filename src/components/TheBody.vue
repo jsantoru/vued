@@ -19,10 +19,14 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   #the-body {
-    padding-top: 50px;
-    overflow: hidden;
-    border: medium solid black;
-    width:100%;
-    height:100%;
+    flex: 1;
+    padding: 2em;
+    display: flex;
+    overflow:hidden;
+    padding-top: 70px;
+  }
+
+  * {
+    flex: 0 0 auto;
   }
 </style>
