@@ -7,6 +7,7 @@ import TopNav from '@/components/TopNav'
 import MainContent from '@/components/MainContent'
 import LeftSidebar from '@/components/LeftSidebar'
 import TheBody from '@/components/TheBody'
+import About from '@/components/About'
 
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -24,6 +25,7 @@ Vue.component('top-nav', TopNav);
 Vue.component('main-content', MainContent);
 Vue.component('left-sidebar', LeftSidebar);
 Vue.component('the-body', TheBody);
+Vue.component('about', About);
 
 /* eslint-disable no-new */
 new Vue({
