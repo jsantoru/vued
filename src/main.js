@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router/router'
-import HelloWorld from '@/components/HelloWorld'
-import Vue2 from '@/components/Vue2'
+import TopNav from '@/components/TopNav'
+import MainContent from '@/components/MainContent'
 
 Vue.config.productionTip = false
 
 // components - global registering
-//Vue.component('hello', HelloWorld);
-Vue.component('vue2', Vue2);
+Vue.component('top-nav', TopNav);
+Vue.component('main-content', MainContent);
 
 /* eslint-disable no-new */
 new Vue({

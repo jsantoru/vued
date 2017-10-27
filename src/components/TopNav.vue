@@ -1,23 +1,31 @@
 <template>
-  <div class="hello">
+  <div id="top-nav">
     <h1>{{msg}}</h1>
-    <vue2></vue2>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'Nav',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'This is the Nav'
     }
   }
 }
 </script>
 
-  <!-- Add "scoped" attribute to limit CSS to this component only -->
+<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  #top-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    border-bottom: thin solid black;
+  }
+
 h1, h2 {
   font-weight: normal;
 }
