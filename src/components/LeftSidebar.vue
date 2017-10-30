@@ -10,8 +10,6 @@
 </template>
 
 <script>
-  import {EventBus} from '../main.js'
-
   export default {
     name: 'LeftSidebar',
     data () {
@@ -44,12 +42,16 @@
             this.selectedItemId = menuItem.id;
 
             // now fire an event that this was selected
-            EventBus.$emit('setActiveSidebar', menuItem);
+            this.$bus.$emit('setActiveSidebar', menuItem);
         },
         isActive: function (menuItem) {
           console.log("isActive?", menuItem);
           return this.selectedItemId == menuItem.id;
         }
+    },
+    created: function() {
+      // fire an event for the default selected item
+      this.$bus.$emit('setActiveSidebar', this.menuItems.find(menuItem => menuItem.id === this.selectedItemId));
     }
   }
 </script>

@@ -13,8 +13,15 @@ import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-// global event bus
+// global event bus available to all components as this.$bus
 export const EventBus = new Vue();
+Object.defineProperties(Vue.prototype, {
+  $bus: {
+    get: function () {
+      return EventBus
+    }
+  }
+});
 
 // config
 Vue.config.productionTip = false

@@ -39,8 +39,6 @@
 </template>
 
 <script>
-import {EventBus} from '../main.js'
-
 export default {
   name: 'Nav',
   data () {
@@ -49,9 +47,15 @@ export default {
       activeSidebar: ''
     }
   },
+  methods: {
+      onSetActiveSidebar: function(menuItem) {
+        this.activeSidebar = menuItem.name;
+      }
+  },
+  // setup all the event handles in the created lifecycle hook
   created: function() {
-    EventBus.$on('setActiveSidebar', menuItem => {
-       this.activeSidebar = menuItem.name;
+    this.$bus.$on('setActiveSidebar', menuItem => {
+       this.onSetActiveSidebar(menuItem);
     });
   }
 }
@@ -60,5 +64,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   #top-nav {
+
   }
 </style>
