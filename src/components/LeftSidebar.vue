@@ -3,7 +3,7 @@
     <h3>Sidebar header</h3>
     <ul class="nav nav-pills flex-column">
       <li v-for="menuItem in menuItems" nav-item>
-        <a class="nav-link" href="#" v-on:click="setActive(menuItem)" v-bind:class="{'bold': isActive(menuItem)}">{{menuItem.name}}</a>
+        <a class="nav-link" href="#" @click="setActive(menuItem)" :class="{'bold': isActive(menuItem)}">{{menuItem.name}}</a>
       </li>
     </ul>
   </div>
