@@ -10,6 +10,8 @@
 </template>
 
 <script>
+  import {EventBus} from '../main.js'
+
   export default {
     name: 'LeftSidebar',
     data () {
@@ -40,6 +42,9 @@
         setActive: function (menuItem) {
             console.log(menuItem);
             this.selectedItemId = menuItem.id;
+
+            // now fire an event that this was selected
+            EventBus.$emit('setActiveSidebar', menuItem);
         },
         isActive: function (menuItem) {
           console.log("isActive?", menuItem);

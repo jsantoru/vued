@@ -1,7 +1,7 @@
 <template>
   <div id="top-nav">
     <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">Navbar</a>
+      <a class="navbar-brand" href="#">Navbar | {{activeSidebar}}</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -39,12 +39,20 @@
 </template>
 
 <script>
+import {EventBus} from '../main.js'
+
 export default {
   name: 'Nav',
   data () {
     return {
-      msg: 'This is the Nav'
+      msg: 'This is the Nav',
+      activeSidebar: ''
     }
+  },
+  created: function() {
+    EventBus.$on('setActiveSidebar', menuItem => {
+       this.activeSidebar = menuItem.name;
+    });
   }
 }
 </script>
