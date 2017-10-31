@@ -26,6 +26,7 @@ Object.defineProperties(Vue.prototype, {
 // config
 Vue.config.productionTip = false
 
+
 // use
 //Vue.use(BootstrapVue);
 Vue.use(vueResource);
