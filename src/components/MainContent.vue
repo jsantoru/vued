@@ -1,6 +1,6 @@
 <template>
   <div id="main-content">
-    <h1>{{ msg }} | {{ sidebarDao.getActiveSidebar() }} <span v-if="userDao.getActiveUser()">| {{userDao.getActiveUser().name}}</span></h1>
+    <h1>{{ msg }} | <span v-if="sidebarDao.getActiveSidebar()">{{ sidebarDao.getActiveSidebar().name }}</span> <span v-if="userDao.getActiveUser()">| {{userDao.getActiveUser().name}}</span></h1>
     <ul class="list-group">
       <li
         v-for="user in userDao.getUsers()"
@@ -18,7 +18,6 @@ export default {
   data () {
       return {
         msg: 'This is the main content',
-        activeUser: null,
 
         // inject the daos
         sidebarDao: this.$root.$data.daos.sidebarDao,
@@ -26,13 +25,16 @@ export default {
       }
   },
   computed: {
+    activeUser() {
+      return this.userDao.getActiveUser()
+    }
   },
   methods: {
       getUserDisplayName: function(user) {
           return user.name + " (" + user.email + ")";
       },
       setActive: function(user) {
-          this.activeUser = user;
+          //this.activeUser = user;
           this.userDao.setActiveUser(user);
       },
       isActive: function(user) {
@@ -40,14 +42,17 @@ export default {
             return user.email === this.activeUser.email;
           }
           return false;
+      },
+      retrieveUsers: function() {
+        this.$http.get("https://jsonplaceholder.typicode.com/users")
+          .then(function(response) {
+            this.userDao.setUsers(response.data);
+          });
       }
   },
   // when this component is created
   created: function() {
-      this.$http.get("https://jsonplaceholder.typicode.com/users")
-        .then(function(response) {
-            this.userDao.setUsers(response.data);
-        });
+    this.retrieveUsers();
   }
 }
 </script>
