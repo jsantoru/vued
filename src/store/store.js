@@ -1,7 +1,7 @@
 /**
  * Single source of truth for the state of the UI.
  */
-var store = {
+export default {
   // sidebar state
   activeSidebar: '',
 
@@ -9,5 +9,3 @@ var store = {
   users: [],
   activeUser: null,
 };
-
-export default store;
