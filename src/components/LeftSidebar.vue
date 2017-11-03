@@ -14,6 +14,7 @@
     name: 'LeftSidebar',
     data () {
       return {
+        store: this.$root.$data.store,
         msg: 'This is the left sidebar',
         selectedItemId: 1,
         menuItems: [
@@ -41,6 +42,8 @@
             console.log(menuItem);
             this.selectedItemId = menuItem.id;
 
+            this.store.setActiveSidebar(menuItem.name);
+
             // now fire an event that this was selected
             this.$bus.$emit('setActiveSidebar', menuItem);
         },
@@ -50,8 +53,13 @@
         }
     },
     created: function() {
+      var menuItem = this.menuItems.find(menuItem => menuItem.id === this.selectedItemId);
+
+      // set the default value
+      this.store.setActiveSidebar(menuItem.name);
+
       // fire an event for the default selected item
-      this.$bus.$emit('setActiveSidebar', this.menuItems.find(menuItem => menuItem.id === this.selectedItemId));
+      this.$bus.$emit('setActiveSidebar', menuItem);
     }
   }
 </script>

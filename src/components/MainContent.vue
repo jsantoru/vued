@@ -1,8 +1,8 @@
 <template>
   <div id="main-content">
-    <h1>{{ msg }}</h1>
+    <h1>{{ msg }} | {{ store.activeSidebar }}</h1>
     <ul class="list-group">
-      <li v-for="user in users" class="list-group-item list-group-item-action">{{getUserDisplayName(user)}}</li>
+      <li v-for="user in store.users" class="list-group-item list-group-item-action">{{getUserDisplayName(user)}}</li>
     </ul>
   </div>
 </template>
@@ -13,8 +13,10 @@ export default {
   data () {
       return {
         msg: 'This is the main content',
-        users: []
+        store: this.$root.$data.store
       }
+  },
+  computed: {
   },
   methods: {
       getUserDisplayName: function(user) {
@@ -25,7 +27,7 @@ export default {
   created: function() {
       this.$http.get("https://jsonplaceholder.typicode.com/users")
         .then(function(response) {
-            this.users = response.data;
+            this.store.users = response.data;
           });
   }
 }

@@ -9,11 +9,11 @@ import LeftSidebar from '@/components/LeftSidebar'
 import TheBody from '@/components/TheBody'
 import About from '@/components/About'
 
-import BootstrapVue from 'bootstrap-vue'
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+// single source of truth
+import store from './store.js'
 
 // global event bus available to all components as this.$bus
+// global store available to all components as this.$store ???
 export const EventBus = new Vue();
 Object.defineProperties(Vue.prototype, {
   $bus: {
@@ -24,11 +24,9 @@ Object.defineProperties(Vue.prototype, {
 });
 
 // config
-Vue.config.productionTip = false
-
+Vue.config.productionTip = false;
 
 // use
-//Vue.use(BootstrapVue);
 Vue.use(vueResource);
 
 // components - global registering
@@ -41,6 +39,9 @@ Vue.component('about', About);
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  data: {
+    store: store
+  },
   router,
   render: h => h(App)
 });
