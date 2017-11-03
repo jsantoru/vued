@@ -1,19 +1,20 @@
+// boiler plate
 import Vue from 'vue'
 import vueResource from 'vue-resource'
-
-import App from './App'
 import router from './router/router'
+
+// components
+import App from './App'
 import TopNav from '@/components/TopNav'
 import MainContent from '@/components/MainContent'
 import LeftSidebar from '@/components/LeftSidebar'
 import TheBody from '@/components/TheBody'
 import About from '@/components/About'
 
-// single source of truth
-import store from './store.js'
+// the daos to access the store
+import daos from './store/daos'
 
 // global event bus available to all components as this.$bus
-// global store available to all components as this.$store ???
 export const EventBus = new Vue();
 Object.defineProperties(Vue.prototype, {
   $bus: {
@@ -40,7 +41,7 @@ Vue.component('about', About);
 new Vue({
   el: '#app',
   data: {
-    store: store
+    daos: daos
   },
   router,
   render: h => h(App)

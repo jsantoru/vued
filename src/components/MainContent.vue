@@ -1,8 +1,13 @@
 <template>
   <div id="main-content">
-    <h1>{{ msg }} | {{ store.activeSidebar }}</h1>
+    <h1>{{ msg }} | {{ sidebarDao.getActiveSidebar() }} <span v-if="userDao.getActiveUser()">| {{userDao.getActiveUser().name}}</span></h1>
     <ul class="list-group">
-      <li v-for="user in store.users" class="list-group-item list-group-item-action">{{getUserDisplayName(user)}}</li>
+      <li
+        v-for="user in userDao.getUsers()"
+        class="list-group-item list-group-item-action"
+        @click="setActive(user)"
+        :class="{'active': isActive(user), 'bold': isActive(user)}"
+      >{{getUserDisplayName(user)}}</li>
     </ul>
   </div>
 </template>
@@ -13,7 +18,11 @@ export default {
   data () {
       return {
         msg: 'This is the main content',
-        store: this.$root.$data.store
+        activeUser: null,
+
+        // inject the daos
+        sidebarDao: this.$root.$data.daos.sidebarDao,
+        userDao: this.$root.$data.daos.userDao
       }
   },
   computed: {
@@ -21,14 +30,24 @@ export default {
   methods: {
       getUserDisplayName: function(user) {
           return user.name + " (" + user.email + ")";
+      },
+      setActive: function(user) {
+          this.activeUser = user;
+          this.userDao.setActiveUser(user);
+      },
+      isActive: function(user) {
+          if(this.activeUser && user) {
+            return user.email === this.activeUser.email;
+          }
+          return false;
       }
   },
   // when this component is created
   created: function() {
       this.$http.get("https://jsonplaceholder.typicode.com/users")
         .then(function(response) {
-            this.store.users = response.data;
-          });
+            this.userDao.setUsers(response.data);
+        });
   }
 }
 </script>
@@ -41,5 +60,9 @@ export default {
     width:80%;
     flex: 0 0 auto;
     border: thin solid black;
+  }
+
+  .bold {
+    font-weight:bold;
   }
 </style>

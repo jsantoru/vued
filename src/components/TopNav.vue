@@ -1,7 +1,7 @@
 <template>
   <div id="top-nav">
     <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">Navbar | {{activeSidebar}}</a>
+      <a class="navbar-brand" href="#">Navbar | {{activeSidebar}} <span v-if="userDao.getActiveUser()">| {{userDao.getActiveUser().name}}</span></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -44,7 +44,10 @@ export default {
   data () {
     return {
       msg: 'This is the Nav',
-      activeSidebar: ''
+      activeSidebar: '',
+
+      // inject the daos
+      userDao: this.$root.$data.daos.userDao
     }
   },
   methods: {
@@ -64,6 +67,5 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   #top-nav {
-
   }
 </style>

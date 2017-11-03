@@ -14,27 +14,17 @@
     name: 'LeftSidebar',
     data () {
       return {
-        store: this.$root.$data.store,
         msg: 'This is the left sidebar',
         selectedItemId: 1,
         menuItems: [
-          {
-              id: 1,
-              name: "One"
-          },
-          {
-              id: 2,
-              name: "Two"
-          },
-          {
-            id: 3,
-            name: "Three"
-          },
-          {
-            id: 4,
-            name: "Four"
-          }
-        ]
+          {id: 1, name: "One"},
+          {id: 2, name: "Two"},
+          {id: 3, name: "Three"},
+          {id: 4, name: "Four"}
+        ],
+
+        // inject the daos
+        sidebarDao: this.$root.$data.daos.sidebarDao
       }
     },
     methods: {
@@ -42,7 +32,7 @@
             console.log(menuItem);
             this.selectedItemId = menuItem.id;
 
-            this.store.setActiveSidebar(menuItem.name);
+            this.sidebarDao.setActiveSidebar(menuItem.name);
 
             // now fire an event that this was selected
             this.$bus.$emit('setActiveSidebar', menuItem);
@@ -56,7 +46,7 @@
       var menuItem = this.menuItems.find(menuItem => menuItem.id === this.selectedItemId);
 
       // set the default value
-      this.store.setActiveSidebar(menuItem.name);
+      this.sidebarDao.setActiveSidebar(menuItem.name);
 
       // fire an event for the default selected item
       this.$bus.$emit('setActiveSidebar', menuItem);
