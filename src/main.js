@@ -10,6 +10,7 @@ import MainContent from '@/components/MainContent'
 import LeftSidebar from '@/components/LeftSidebar'
 import TheBody from '@/components/TheBody'
 import About from '@/components/About'
+import Mirror from '@/components/Mirror'
 
 // the daos to access the store
 import daos from './store/daos'
@@ -36,6 +37,7 @@ Vue.component('main-content', MainContent);
 Vue.component('left-sidebar', LeftSidebar);
 Vue.component('the-body', TheBody);
 Vue.component('about', About);
+Vue.component('mirror', Mirror);
 
 /* eslint-disable no-new */
 new Vue({
