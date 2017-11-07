@@ -23,8 +23,16 @@
           </div>
         </div>
         <div class="left-middle-right">
-          <div class="current-temp">{{weather.currentTemp}} &deg;F</div>
-          <div class="highlow">{{weather.high}} | {{weather.low}}</div>
+          <div class="current-temp">{{weather.currentTemp}}&deg;</div>
+          <div class="highlow">
+            {{weather.high}} | {{weather.low}}
+            <!--<div class="high">
+              {{weather.high}}
+            </div>
+            <div class="low">
+              {{weather.low}}
+            </div>-->
+          </div>
         </div>
       </div>
       <div class="left-bottom">
@@ -39,7 +47,6 @@
               {{day.high}} | {{day.low}}
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -153,6 +160,7 @@
           });
         }
     },
+    //
     created: function() {
         this.getWeather();
         this.getForecast();
@@ -188,6 +196,7 @@
   .left-middle-left {
     float:left;
     padding:2px;
+    text-align:center;
   }
 
   .left-middle-right {
@@ -198,7 +207,7 @@
   .left-bottom {
     float:right;
     width:100%;
-    padding-top:5px;
+    padding-top:30px;
   }
 
   .left-bottom-left {
@@ -213,21 +222,34 @@
     float:right;
   }
 
+  /* */
 
   .date {
     font-size: 2em;
   }
 
   .clock {
-    font-size: 3em;
+    font-size: 4em;
   }
 
   .current-temp {
     font-size: 3em;
+    padding-left:5px;
   }
 
   .highlow {
-    text-align: center;
+    text-align:center;
+    padding-right:10px;
+  }
+
+  .high {
+    float:left;
+    padding-left:0px;
+  }
+
+  .low {
+    float:right;
+    padding-right:20px;
   }
 
   div {
