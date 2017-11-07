@@ -1,5 +1,6 @@
 <template>
   <div id="mirror">
+    <div class="top">
     <div class="right">
       <div class="date">
         <div>{{date.dayOfWeek}}</div>
@@ -26,12 +27,6 @@
           <div class="current-temp">{{weather.currentTemp}}&deg;</div>
           <div class="highlow">
             {{weather.high}} | {{weather.low}}
-            <!--<div class="high">
-              {{weather.high}}
-            </div>
-            <div class="low">
-              {{weather.low}}
-            </div>-->
           </div>
         </div>
       </div>
@@ -50,11 +45,17 @@
         </div>
       </div>
     </div>
+    </div>
+    <div class="bottom">
+      <div class="quote" v-html="quote.html"></div>
+      <p class="author">- {{quote.author}}</p>
+    </div>
   </div>
 </template>
 
 <script>
   import keys from '../conf/keys.js';
+
   export default {
     name: 'Mirror',
     data () {
@@ -79,6 +80,10 @@
           month:'',
           day:'',
           year:''
+        },
+        quote: {
+            html: '',
+            author: ''
         }
       }
     },
@@ -98,8 +103,7 @@
           this.clock.seconds = this.getZeroPad(now.getSeconds());
           this.clock.hours = hours24 % 12 || 12;
 
-          this.clock.amPm =
-            this.determineAmPm(hours24);
+          this.clock.amPm = this.determineAmPm(hours24);
 
           this.date.dayOfWeek = days[now.getDay()];
           this.date.day = now.getDate();
@@ -152,21 +156,32 @@
 
             });
 
-            console.log(weatherDays);
-
             this.forecast = weatherDays;
             this.weather.high = weatherDays[0].high;
             this.weather.low = weatherDays[0].low;
           });
-        }
-    },
-    //
-    created: function() {
-        this.getWeather();
-        this.getForecast();
-        this.updateDateTime();
+        },
+      updateQuote() {
+          let url = 'http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1&' + new Date().getTime();
 
-        setInterval(this.updateDateTime, 60000);
+          this.$http.get(url)
+            .then(function(response) {
+                let quote = response.body[0];
+                this.quote.html = quote.content;
+                this.quote.author = quote.title;
+               //console.log(response.body);
+            });
+      }
+    },
+    created: function() {
+      this.getWeather();
+      this.getForecast();
+
+      this.updateDateTime();
+      setInterval(this.updateDateTime, 60000);
+
+      this.updateQuote();
+      setInterval(this.updateQuote, 30000);
     }
 
   }
@@ -250,6 +265,18 @@
   .low {
     float:right;
     padding-right:20px;
+  }
+
+  .bottom {
+    float:left;
+    clear:left;
+    width:100%;
+    padding-top:50px;
+    text-align: center;
+  }
+
+  .quote {
+    font-style:italic;
   }
 
   div {
