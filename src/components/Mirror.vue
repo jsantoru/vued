@@ -61,30 +61,12 @@
     data () {
       return {
         msg: 'This is the Mirror',
-        wunderground: keys.wunderground,
-        clock: {
-          hours:'',
-          minutes:'',
-          seconds:'',
-          amPm:'',
-          test:'',
-        },
-        weather: {
-          high:'',
-          low:'',
-          icon:''
-        },
+        clock: { hours:'', minutes:'', seconds:'', amPm:'' },
+        weather: { high:'', low:'', icon:'' },
         forecast: [],
-        date: {
-          dayOfWeek:'',
-          month:'',
-          day:'',
-          year:''
-        },
-        quote: {
-            html: '',
-            author: ''
-        }
+        date: { dayOfWeek:'', month:'', day:'', year:'' },
+        quote: { html: '', author: '' },
+        zip: ''
       }
     },
     computed: {
@@ -117,7 +99,7 @@
         return (parseInt(num, 10) >= 10 ? '' : '0') + num;
       },
       getWeather() {
-          let conditionsUrl = 'http://api.wunderground.com/api/' + this.wunderground + '/conditions/q/14450.json';
+          let conditionsUrl = 'http://api.wunderground.com/api/' + keys.wunderground + '/conditions/q/' + this.zip + '.json';
           this.$http.get(conditionsUrl)
             .then(function(response) {
               let now = response.body.current_observation;
@@ -132,7 +114,7 @@
             });
       },
       getForecast() {
-        let forecastUrl = 'http://api.wunderground.com/api/' + this.wunderground + '/forecast/q/14450.json';
+        let forecastUrl = 'http://api.wunderground.com/api/' + keys.wunderground + '/forecast/q/' + this.zip + '.json';
 
         this.$http.get(forecastUrl)
           .then(function (response) {
@@ -152,8 +134,6 @@
               weather.day = day.date.weekday_short;
 
               weatherDays.push(weather);
-
-
             });
 
             this.forecast = weatherDays;
@@ -174,6 +154,9 @@
       }
     },
     created: function() {
+      // grab the zip from the route if it was provided
+      this.zip = (this.$route.params.zip) ? this.$route.params.zip : '14450';
+
       this.getWeather();
       this.getForecast();
 

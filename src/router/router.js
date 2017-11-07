@@ -27,6 +27,11 @@ export default new Router({
       path: '/mirror',
       name: 'Mirror',
       component: Mirror
+    },
+    {
+      path: '/mirror/:zip',
+      name: 'MirrorWithZip',
+      component: Mirror
     }
   ]
 })
