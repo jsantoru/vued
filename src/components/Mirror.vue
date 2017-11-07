@@ -9,6 +9,9 @@
       <div class="clock">
         <span v-if="clock.hours">{{clock.hours}}:{{clock.minutes}} {{clock.amPm}}</span>
       </div>
+      <div class="commute">
+        <span> Commute: {{commute.duration}} ({{commute.distance}})</span>
+      </div>
     </div>
     <div class="left">
       <div class="left-top">
@@ -54,8 +57,10 @@
 </template>
 
 <script>
+  /*
+   * USAGE: http://localhost:5000/#/mirror?zip=10990&origin=fairport%20ny&destination=pittsford%20ny
+   */
   import keys from '../conf/keys.js';
-
   export default {
     name: 'Mirror',
     data () {
@@ -66,7 +71,8 @@
         forecast: [],
         date: { dayOfWeek:'', month:'', day:'', year:'' },
         quote: { html: '', author: '' },
-        zip: ''
+        zip: '',
+        commute: {distance: '', duration: ''}
       }
     },
     computed: {
@@ -149,13 +155,40 @@
                 let quote = response.body[0];
                 this.quote.html = quote.content;
                 this.quote.author = quote.title;
-               //console.log(response.body);
             });
+      },
+      updateCommuteInfo() {
+        let origin = (this.$route.query.origin) ? this.$route.query.origin : 'Fairport NY';
+        let destination = (this.$route.query.destination) ? this.$route.query.destination : 'Rochester NY';
+
+        console.log(origin);
+        console.log(destination);
+
+        var directionsService = new google.maps.DirectionsService();
+        var request = {
+          origin: origin,
+          destination: destination,
+          travelMode: google.maps.DirectionsTravelMode.DRIVING
+        };
+
+        var _this = this;
+        directionsService.route(request, function(response, status) {
+          if(status == google.maps.DirectionsStatus.OK) {
+            let legInfo = response.routes[0].legs[0];
+
+            _this.commute.distance = legInfo.distance.text;
+            _this.commute.duration = legInfo.duration.text;
+
+            console.log(_this.commute.distance);
+            console.log(_this.commute.duration);
+          }
+        });
       }
     },
     created: function() {
-      // grab the zip from the route if it was provided
-      this.zip = (this.$route.params.zip) ? this.$route.params.zip : '14450';
+      var _this = this;
+      // grab the zip from the query params if it was provided
+      this.zip = (this.$route.query.zip) ? this.$route.query.zip : '14450';
 
       this.getWeather();
       this.getForecast();
@@ -165,8 +198,15 @@
 
       this.updateQuote();
       setInterval(this.updateQuote, 30000);
-    }
 
+      // update commute info every 5 minutes
+      // hack to wait until the google api is loaded
+      setTimeout(function() {
+        _this.updateCommuteInfo();
+      }, 500);
+
+      setInterval(this.updateCommuteInfo, 300000);
+    }
   }
 </script>
 

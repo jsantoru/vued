@@ -4,7 +4,7 @@ import MainContent from '@/components/MainContent'
 import About from '@/components/About'
 import Mirror from '@/components/Mirror'
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [
@@ -26,11 +26,6 @@ export default new Router({
     {
       path: '/mirror',
       name: 'Mirror',
-      component: Mirror
-    },
-    {
-      path: '/mirror/:zip',
-      name: 'MirrorWithZip',
       component: Mirror
     }
   ]

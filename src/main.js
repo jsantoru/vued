@@ -1,9 +1,21 @@
+import keys from './conf/keys'
+//<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDruwo4_nOPuU3JolHG9iy_swBAWd757h8">
+// add this here instead of index.html so we can specify the apikey without checking it in
+function loadGoogleMapsApi() {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src = "https://maps.googleapis.com/maps/api/js?key=" + keys.googlemaps;
+  document.head.appendChild(script);
+}
+window.onload = loadGoogleMapsApi();
+
 // boiler plate
 import Vue from 'vue'
 import vueResource from 'vue-resource'
 import router from './router/router'
 
 // components
+
 import App from './App'
 import TopNav from '@/components/TopNav'
 import MainContent from '@/components/MainContent'
