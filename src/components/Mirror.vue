@@ -1,19 +1,47 @@
 <template>
   <div id="mirror">
-    <div class="clock">
-      <p v-if="clock.hours">{{clock.hours}} : {{clock.minutes}} : {{clock.seconds}} {{clock.amPm}}</p>
-    </div>
-    <div class="weather">
-      <div class="today-weather">
-        <h2>{{weather.location}}</h2>
-        <img :src="weather.icon"/> <span class="current-temp">   {{weather.currentTemp}} &deg;F</span> <span>{{weather.high}} | {{weather.low}}</span>
-        <br/><span>{{weather.description}}</span>
+    <div class="right">
+      <div class="date">
+        <div>{{date.dayOfWeek}}</div>
+        <span>{{date.month}} {{date.day}}, {{date.year}}</span>
       </div>
-      <br/>
-      <br/>
-      <span v-for="day in weather.forecast">
-        <p><img :src="day.icon" height="25px" width="25px"/> {{day.day}} {{day.description}} {{day.high}} | {{day.low}}</p>
-      </span>
+      <div class="clock">
+        <span v-if="clock.hours">{{clock.hours}}:{{clock.minutes}} {{clock.amPm}}</span>
+      </div>
+    </div>
+    <div class="left">
+      <div class="left-top">
+        <h2>{{weather.location}}</h2>
+      </div>
+      <div class="left-middle">
+        <div class="left-middle-left">
+          <div class="main-icon">
+            <img :src="weather.icon" width="72px" height="72px"/>
+          </div>
+          <div class="description">
+            <span>{{weather.description}}</span>
+          </div>
+        </div>
+        <div class="left-middle-right">
+          <div class="current-temp">{{weather.currentTemp}} &deg;F</div>
+          <div class="highlow">{{weather.high}} | {{weather.low}}</div>
+        </div>
+      </div>
+      <div class="left-bottom">
+        <div v-for="day in forecast">
+          <div class="left-bottom-left">
+            {{day.day}}
+          </div>
+          <div class="left-bottom-middle">
+            <img :src="day.icon" height="25px" width="25px"/>
+
+            <div class="left-bottom-right">
+              {{day.high}} | {{day.low}}
+            </div>
+          </div>
+
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -24,19 +52,26 @@
     name: 'Mirror',
     data () {
       return {
-        msg: 'This is the Mirror component',
+        msg: 'This is the Mirror',
         wunderground: keys.wunderground,
         clock: {
           hours:'',
           minutes:'',
           seconds:'',
-          amPm:''
+          amPm:'',
+          test:'',
         },
         weather: {
           high:'',
           low:'',
-          icon:'',
-          forecast: []
+          icon:''
+        },
+        forecast: [],
+        date: {
+          dayOfWeek:'',
+          month:'',
+          day:'',
+          year:''
         }
       }
     },
@@ -45,6 +80,10 @@
     },
     methods: {
       updateDateTime() {
+          let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+          let months = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"];
+
           let now = new Date();
           let hours24 = this.getZeroPad(now.getHours());
 
@@ -52,7 +91,13 @@
           this.clock.seconds = this.getZeroPad(now.getSeconds());
           this.clock.hours = hours24 % 12 || 12;
 
-          this.clock.amPm = this.determineAmPm(hours24);
+          this.clock.amPm =
+            this.determineAmPm(hours24);
+
+          this.date.dayOfWeek = days[now.getDay()];
+          this.date.day = now.getDate();
+          this.date.month = months[now.getMonth()];
+          this.date.year = now.getFullYear();
       },
       determineAmPm(hours) {
         return hours >= 12 ? 'PM' : 'AM';
@@ -96,15 +141,15 @@
               weather.day = day.date.weekday_short;
 
               weatherDays.push(weather);
+
+
             });
 
             console.log(weatherDays);
 
-            this.weather.forecast = weatherDays;
-
+            this.forecast = weatherDays;
             this.weather.high = weatherDays[0].high;
             this.weather.low = weatherDays[0].low;
-
           });
         }
     },
@@ -112,8 +157,10 @@
         this.getWeather();
         this.getForecast();
         this.updateDateTime();
-        setInterval(this.updateDateTime, 1000);
+
+        setInterval(this.updateDateTime, 60000);
     }
+
   }
 </script>
 
@@ -126,13 +173,65 @@
     flex: 0 0 auto;
     border: thin solid black;
     background-color: black;
-  }
-
-  .clock, .weather {
     color: white;
   }
 
-  .current-temp {
+  .left {
+    float:left;
+  }
+
+  .right {
+    float:right;
+    text-align:right;
+  }
+
+  .left-middle-left {
+    float:left;
+    padding:2px;
+  }
+
+  .left-middle-right {
+    float:right;
+    padding:2px;
+  }
+
+  .left-bottom {
+    float:right;
+    width:100%;
+    padding-top:5px;
+  }
+
+  .left-bottom-left {
+    float:left;
+  }
+
+  .left-bottom-middle {
+    text-align:center;
+  }
+
+  .left-bottom-right {
+    float:right;
+  }
+
+
+  .date {
     font-size: 2em;
   }
+
+  .clock {
+    font-size: 3em;
+  }
+
+  .current-temp {
+    font-size: 3em;
+  }
+
+  .highlow {
+    text-align: center;
+  }
+
+  div {
+    /*border: solid white 1px;*/
+  }
+
 </style>
