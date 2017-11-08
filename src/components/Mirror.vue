@@ -43,12 +43,11 @@
           <div class="left-bottom-left">
             {{day.day}}
           </div>
+          <div class="left-bottom-right">
+            {{day.high}} | {{day.low}}
+          </div>
           <div class="left-bottom-middle">
             <img :src="day.icon" height="25px" width="25px"/>
-
-            <div class="left-bottom-right">
-              {{day.high}} | {{day.low}}
-            </div>
           </div>
         </div>
       </div>
@@ -237,15 +236,20 @@
     text-align:right;
   }
 
+  .left-top {
+    text-align:center;
+    overflow:visible;
+  }
+
   .left-middle-left {
     float:left;
-    padding:2px;
     text-align:center;
+    width:85px;
   }
 
   .left-middle-right {
     float:right;
-    padding:2px;
+    width:85px;
   }
 
   .left-bottom {
@@ -256,6 +260,7 @@
 
   .left-bottom-left {
     float:left;
+    width:45px;
   }
 
   .left-bottom-middle {
@@ -264,6 +269,8 @@
 
   .left-bottom-right {
     float:right;
+    width:60px;
+    text-align:right;
   }
 
   .commute-icon {
