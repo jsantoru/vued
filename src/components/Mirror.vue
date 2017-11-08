@@ -9,8 +9,13 @@
       <div class="clock">
         <span v-if="clock.hours">{{clock.hours}}:{{clock.minutes}} {{clock.amPm}}</span>
       </div>
-      <div class="commute">
-        <span> Commute: {{commute.duration}} ({{commute.distance}})</span>
+      <div v-if="commute.distance" class="commute">
+        <div class="commute-details">
+          <span>{{commute.duration}} ({{commute.distance}})</span>
+        </div>
+        <div class="commute-icon">
+          <img src="../assets/traffic.svg" width="25px" height="25px"/>
+        </div>
       </div>
     </div>
     <div class="left">
@@ -20,7 +25,7 @@
       <div class="left-middle">
         <div class="left-middle-left">
           <div class="main-icon">
-            <img :src="weather.icon" width="72px" height="72px"/>
+            <img v-if="weather.iconName":src="weather.icon" width="72px" height="72px"/>
           </div>
           <div class="description">
             <span>{{weather.description}}</span>
@@ -114,6 +119,7 @@
               this.weather.location = now.display_location.full;
               this.weather.currentTemp = now.temp_f;
               this.weather.description = now.weather;
+              this.weather.iconName = now.icon;
               this.weather.icon = now.icon_url;
               // sunrise
               // sunset
@@ -260,6 +266,16 @@
     float:right;
   }
 
+  .commute-icon {
+    float:right;
+    -webkit-filter: invert(100%);
+    padding-right: 15px;
+  }
+
+  .commute-details {
+    float:right;
+  }
+
   /* */
 
   .date {
@@ -278,16 +294,6 @@
   .highlow {
     text-align:center;
     padding-right:10px;
-  }
-
-  .high {
-    float:left;
-    padding-left:0px;
-  }
-
-  .low {
-    float:right;
-    padding-right:20px;
   }
 
   .bottom {
