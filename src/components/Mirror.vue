@@ -192,6 +192,7 @@
         var request = {
           origin: origin,
           destination: destination,
+          durationInTraffic: true,
           travelMode: google.maps.DirectionsTravelMode.DRIVING
         };
 
@@ -201,7 +202,7 @@
             let legInfo = response.routes[0].legs[0];
 
             _this.commute.distance = legInfo.distance.text;
-            _this.commute.duration = legInfo.duration.text;
+            _this.commute.duration = legInfo.duration_in_traffic.text;
 
             console.log(_this.commute.distance);
             console.log(_this.commute.duration);
