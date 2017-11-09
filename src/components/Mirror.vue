@@ -60,7 +60,8 @@
     </div>
     </div>
     <div class="bottom">
-      <div class="quote" v-html="quote.html"></div>
+      <!--<div class="quote" v-html="quote.html"></div>-->
+      <div class="quote">{{quote.text}}</div>
       <p class="author">- {{quote.author}}</p>
     </div>
   </div>
@@ -159,13 +160,22 @@
           });
         },
       updateQuote() {
-          let url = 'http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1&' + new Date().getTime();
+          //let url = 'http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1&' + new Date().getTime();
+          //let url = 'https://talaikis.com/api/quotes/random/';
+          let url = 'http://quotes.rest/qod.json?category=inspire';
 
           this.$http.get(url)
             .then(function(response) {
-                let quote = response.body[0];
-                this.quote.html = quote.content;
-                this.quote.author = quote.title;
+                //let quote = response.body[0];
+                //this.quote.html = quote.content;
+                //this.quote.author = quote.title;
+
+              //let quote = response.body;
+              let quote = response.body.contents.quotes[0];
+              this.quote.text = quote.quote;
+              this.quote.author = quote.author;
+
+
             });
       },
       updateCommuteInfo() {
@@ -200,26 +210,35 @@
       }
     },
     created: function() {
+      let ms_1_sec = 1000;
+      let ms_30_secs = ms_1_sec * 30;
+      let ms_60_secs = ms_1_sec * 60;
+      let ms_5_mins = ms_60_secs * 5;
+      let ms_1_hour = ms_60_secs * 60;
+
       var _this = this;
       // grab the zip from the query params if it was provided
       this.zip = (this.$route.query.zip) ? this.$route.query.zip : '14450';
 
       this.getWeather();
+      setInterval(this.getWeather(), ms_1_hour);
+
       this.getForecast();
+      setInterval(this.getForecast(), ms_1_hour);
 
       this.updateDateTime();
-      setInterval(this.updateDateTime, 60000);
+      setInterval(this.updateDateTime, ms_60_secs);
 
       this.updateQuote();
-      setInterval(this.updateQuote, 30000);
+      setInterval(this.updateQuote, ms_1_hour);
 
       // update commute info every 5 minutes
       // hack to wait until the google api is loaded
       setTimeout(function() {
         _this.updateCommuteInfo();
-      }, 500);
+      }, ms_1_sec);
 
-      setInterval(this.updateCommuteInfo, 300000);
+      setInterval(this.updateCommuteInfo, ms_5_mins);
     }
   }
 </script>
