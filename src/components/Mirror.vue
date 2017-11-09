@@ -10,13 +10,19 @@
         <span v-if="clock.hours">{{clock.hours}}:{{clock.minutes}} {{clock.amPm}}</span>
       </div>
       <div v-if="commute.distance" class="commute">
-        <div class="commute-details">
-          <span>{{commute.duration}} ({{commute.distance}})</span>
-        </div>
         <div class="commute-icon">
-          <img src="../assets/traffic.svg" width="25px" height="25px"/>
+          <img src="../assets/traffic.svg" width="42px" height="42px"/>
+        </div>
+        <div class="commute-details">
+          <div class="commute-duration">
+            <span><b>{{commute.duration}}</b> to Work ({{commute.distance}})</span>
+          </div>
+          <div class="commute-destination">
+            <span>{{commute.destination}}</span>
+          </div>
         </div>
       </div>
+
     </div>
     <div class="left">
       <div class="left-top">
@@ -76,11 +82,11 @@
         date: { dayOfWeek:'', month:'', day:'', year:'' },
         quote: { html: '', author: '' },
         zip: '',
+
         commute: {distance: '', duration: ''}
       }
     },
     computed: {
-
     },
     methods: {
       updateDateTime() {
@@ -129,6 +135,7 @@
 
         this.$http.get(forecastUrl)
           .then(function (response) {
+
             console.log("RESPONSE", response);
             let weatherDays = [];
             let forecastArray = response.body.forecast.simpleforecast.forecastday;
@@ -136,7 +143,6 @@
 
             forecastArray.forEach(function(day) {
               console.log(day);
-
               let weather = {};
               weather.high = day.high.fahrenheit;
               weather.low = day.low.fahrenheit;
@@ -165,6 +171,9 @@
       updateCommuteInfo() {
         let origin = (this.$route.query.origin) ? this.$route.query.origin : 'Fairport NY';
         let destination = (this.$route.query.destination) ? this.$route.query.destination : 'Rochester NY';
+
+        this.commute.origin = origin;
+        this.commute.destination = destination;
 
         console.log(origin);
         console.log(destination);
@@ -276,10 +285,18 @@
   .commute-icon {
     float:right;
     -webkit-filter: invert(100%);
-    padding-right: 15px;
+    /*padding-right: 15px;*/
+    padding-top:2px;
+    padding-left: 15px;
+    text-align:left;
   }
 
-  .commute-details {
+  .commute-duration {
+    float:right;
+    text-align:right;
+  }
+
+  .commute-destination {
     float:right;
   }
 
