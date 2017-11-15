@@ -15,7 +15,7 @@
         </div>
         <div class="commute-details">
           <div class="commute-duration">
-            <span><b>{{commute.duration}}</b> to Work ({{commute.distance}})</span>
+            <span><b>{{commute.durationInTraffic}}</b> ({{durationDifferenceDisplay}}) to Work ({{commute.distance}})</span>
           </div>
           <div class="commute-destination">
             <span>{{commute.destination}}</span>
@@ -76,6 +76,7 @@
     name: 'Mirror',
     data () {
       return {
+
         msg: 'This is the Mirror',
         clock: { hours:'', minutes:'', seconds:'', amPm:'' },
         weather: { high:'', low:'', icon:'' },
@@ -83,11 +84,23 @@
         date: { dayOfWeek:'', month:'', day:'', year:'' },
         quote: { html: '', author: '' },
         zip: '',
-
-        commute: {distance: '', duration: ''}
+        commute: {distance: '', durationInTraffic: '', duration: ''}
       }
     },
     computed: {
+      durationDifference: function() {
+        // 17 mins - 15 mins
+        let durationMins = Number.parseInt(this.commute.duration);
+        let durationInTrafficMins = Number.parseInt(this.commute.durationInTraffic);
+        return durationInTrafficMins - durationMins;
+      },
+      durationDifferenceDisplay: function() {
+        let fasterSlower = "slower";
+        if(this.durationDifference < 0) {
+          fasterSlower = "ahead";
+        }
+        return Math.abs(this.durationDifference) + " mins " + fasterSlower;
+      }
     },
     methods: {
       updateDateTime() {
@@ -202,7 +215,8 @@
             let legInfo = response.routes[0].legs[0];
 
             _this.commute.distance = legInfo.distance.text;
-            _this.commute.duration = legInfo.duration_in_traffic.text;
+            _this.commute.durationInTraffic = legInfo.duration_in_traffic.text;
+            _this.commute.duration = legInfo.duration.text;
 
             console.log(_this.commute.distance);
             console.log(_this.commute.duration);
