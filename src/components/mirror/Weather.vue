@@ -28,10 +28,15 @@
           {{day.day}}
         </div>
         <div class="left-bottom-right">
+          <div class="forecast-precip">
+          </div>
+          <!-- TODO: use css to align the precip in its own div, but for now just use non-breaking spaces -->
           {{day.high}} | {{day.low}}
         </div>
         <div class="left-bottom-middle">
-          <img :src="day.icon" height="25px" width="25px"/>
+          <div class="forecast-icon">
+            <img :src="day.icon" height="25px" width="25px"/> &nbsp;&nbsp; {{day.precip}}%
+          </div>
         </div>
       </div>
     </div>
@@ -40,7 +45,6 @@
 
 <script>
   import keys from '../../conf/keys.js';
-
   export default {
     name: 'Quote',
     data () {
@@ -68,6 +72,7 @@
             // sunrise
             // sunset
           });
+
       },
       getForecast() {
         let forecastUrl = 'http://api.wunderground.com/api/' + keys.wunderground + '/forecast/q/' + this.zip + '.json';
@@ -101,6 +106,8 @@
             this.weather.low = weatherDays[0].low;
             this.weather.precip = weatherDays[0].precip;
           });
+      },
+      filters: {
       }
     },
     created: function() {
@@ -131,12 +138,12 @@
   .left-middle-left {
     float:left;
     text-align:center;
-    width:85px;
+    width:100px;
   }
 
   .left-middle-right {
     float:right;
-    width:85px;
+    width:100px;
   }
 
   .left-bottom {
@@ -151,13 +158,22 @@
   }
 
   .left-bottom-middle {
-    text-align:center;
+    /*text-align:center;*/
+  }
+
+
+  .forecast-icon {
+
+  }
+  .forecast-precip {
+    text-align: center;
   }
 
   .left-bottom-right {
     float:right;
-    width:60px;
+    width:70px;
     text-align:right;
+    overflow:visible;
   }
 
   /* */
@@ -175,5 +191,9 @@
   .highlow {
     text-align:center;
     padding-right:10px;
+  }
+
+  div {
+    /*border: solid white 1px;*/
   }
 </style>

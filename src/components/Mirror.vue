@@ -77,6 +77,6 @@
   }
 
   div {
-    border: solid white 1px;
+    /*border: solid white 1px;*/
   }
 </style>
