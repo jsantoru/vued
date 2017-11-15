@@ -41,9 +41,7 @@
     </div>
     </div>
     <div class="bottom">
-      <!--<div class="quote" v-html="quote.html"></div>-->
-      <div class="quote">{{quote.text}}</div>
-      <p class="author">- {{quote.author}}</p>
+      <quote></quote>
     </div>
   </div>
 </template>
@@ -55,20 +53,21 @@
   import keys from '../conf/keys.js';
   import Commute from './mirror/Commute';
   import Clock from './mirror/Clock';
+  import Quote from './mirror/Quote';
 
   export default {
     name: 'Mirror',
     components: {
       'commute': Commute,
-      'clock': Clock
+      'clock': Clock,
+      'quote': Quote
     },
     data () {
       return {
         msg: 'This is the Mirror',
         zip: '',
         weather: { high:'', low:'', icon:'' },
-        forecast: [],
-        quote: { html: '', author: '' }
+        forecast: []
       }
     },
     computed: {
@@ -117,24 +116,7 @@
             this.weather.high = weatherDays[0].high;
             this.weather.low = weatherDays[0].low;
           });
-        },
-      updateQuote() {
-          //let url = 'http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1&' + new Date().getTime();
-          //let url = 'https://talaikis.com/api/quotes/random/';
-          let url = 'http://quotes.rest/qod.json?category=inspire';
-
-          this.$http.get(url)
-            .then(function(response) {
-                //let quote = response.body[0];
-                //this.quote.html = quote.content;
-                //this.quote.author = quote.title;
-
-              //let quote = response.body;
-              let quote = response.body.contents.quotes[0];
-              this.quote.text = quote.quote;
-              this.quote.author = quote.author;
-            });
-      },
+        }
     },
     created: function() {
       let ms_1_sec = 1000;
@@ -152,9 +134,6 @@
 
       this.getForecast();
       setInterval(this.getForecast(), ms_1_hour);
-
-      this.updateQuote();
-      setInterval(this.updateQuote, ms_1_hour);
     }
   }
 </script>
@@ -235,10 +214,6 @@
     width:100%;
     padding-top:50px;
     text-align: center;
-  }
-
-  .quote {
-    font-style:italic;
   }
 
   div {
