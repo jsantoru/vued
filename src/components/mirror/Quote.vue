@@ -36,6 +36,10 @@
       }
     },
     created: function() {
+      let ms_1_sec = 1000;
+      let ms_60_secs = ms_1_sec * 60;
+      let ms_1_hour = ms_60_secs * 60;
+
       this.updateQuote();
       setInterval(this.updateQuote, ms_1_hour);
     }
